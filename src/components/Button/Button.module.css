@@ -1,0 +1,9 @@
+.ButtonContainer {
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+}
+.Button {
+    border: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.888);;
+}

@@ -6,10 +6,8 @@ interface JokeProps {
 }
 
 const Joke: FC<JokeProps> = (props) => (
-  <div className={styles.Joke} data-testid="Joke">
-    <div className={styles.JokeText}>
-      {props.jokeText}
-    </div>
+  <div className={styles.JokeText} data-testid="Joke">
+    {props.jokeText}
   </div>
 );
 

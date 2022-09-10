@@ -6,10 +6,19 @@
     flex-direction: column;
     background-color: rgb(65, 199, 214, 0.2);
     padding: 1em 4em;
+    font-family: Verdana;
+    border: 1px solid rgb(65, 199, 214);
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
-.JokeListTitle {
-    /* font at some point */
+.JokeContainer {
+    border: 1px solid  rgb(65, 199, 214);
+    border-radius: 3px;
+    width: 100%;
+    margin: 0.5em auto;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.888);
 }
 
 .TitleBar {
