@@ -1,0 +1,8 @@
+.LikeToggle {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.LikeToggleIcon {
+    margin-right: 0.5em;
+}

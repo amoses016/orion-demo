@@ -2,67 +2,80 @@ import React, { FC } from 'react';
 import { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import Joke from '../Joke/Joke';
-import Toggle from '../Toggle/Toggle';
+import LikeToggle from '../LikeToggle/LikeToggle';
 import styles from './JokeList.module.css';
 import axios from "axios";
 
 interface JokeListProps {}
 
 const JokeList: FC<JokeListProps> = () => {
-  const [showLikedJokes, setShowLikedVotes] = useState(false);
+  const [showLikedJokes, setShowLikedJokes] = useState(false);
   const [jokeData, setJokeData] = useState<any>([]);
 
   useEffect(() => {
     const result = async () => {
       const data = await axios.get("https://icanhazdadjoke.com/search", { headers: {Accept: 'application/json'}});
-      console.log("DATA: " + JSON.stringify(data.data.results));
+      var jokes: any[] = [];
       data.data.results.map((j: any) => {
-        console.log("DATA: " + JSON.stringify(j));
-        const joke = j;
-        setJokeData( (cur: any) => [
-            ...cur,
-            {
-              ...joke,
-              liked: false
-            }
-          ]);
+        jokes = [
+          ...jokes,
+          {
+            ...j,
+            liked: false
+          }
+        ];
       });
-      console.log("STATE: " + JSON.stringify(jokeData));
+      setJokeData(jokes);
     };
     result();
   }, []);
 
-  const handleToggle = (e: Event) => {
+  const handleLike = (e: Event) => {
     const target = e.target as HTMLInputElement;
-    console.log("button clicked! : " + target.id); ////////////
+    console.log("STATE before: " + JSON.stringify(jokeData));
     setJokeData((prevState: any) => {
       const newState = prevState.map((j: any) => {
         if (j.id === target.id) {
-          return { ...j, liked: true}
+          return { ...j, liked: !j.liked}
         }
         return j;
       });
       return newState;
     });
+  }
 
-    console.log("STATE: " + JSON.stringify(jokeData));
+  const handleToggle = (e: Event) => {
+    // This isn't the greatest thing to do since I can't guarantee the value I'm 
+    //  setting in state is the toggle value, but I chose to do this to save time 
+    //  working out an issue.
+    setShowLikedJokes(!showLikedJokes);
+  }
+
+  const renderJokeCard = (j: any) => {
+    return (
+      <div className={styles.JokeContainer}>
+        <Joke jokeText={j.joke}/>
+        <Button id={j.id} value={j.liked} onClick={handleLike}/>
+      </div>
+    )
   }
   
   return (
     <div className={styles.JokeList} data-testid="JokeList">
       <div className={styles.TitleBar}>
         <h2>Jokes List</h2>
-        <Toggle value={showLikedJokes}/>
+        <LikeToggle value={showLikedJokes} handleToggle={handleToggle} />
       </div>
       <>
         {
           jokeData.map((j: any) => {
-            return (
-              <div className={styles.JokeContainer}>
-                <Joke jokeText={j.joke}/>
-                <Button id={j.id} value={j.liked} onClick={handleToggle}/>
-              </div>
-            )
+            if (showLikedJokes) {
+              if(j.liked) {
+                return renderJokeCard(j)
+              }
+            } else {
+              return renderJokeCard(j);
+            }
           })
         }
       </>

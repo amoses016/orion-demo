@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Toggle from './Toggle';
+import LikeToggle from './LikeToggle';
 
 describe('<Toggle />', () => {
   test('it should mount', () => {
-    render(<Toggle />);
+    render(<LikeToggle />);
     
     const toggle = screen.getByTestId('Toggle');
 
